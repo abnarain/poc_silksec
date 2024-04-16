@@ -1,0 +1,44 @@
+ARTIFACT:
+GROUP BY from mongoDB
+[{'_id': '6.49.14604.0', 'count': 6}, {'_id': '5.6.0.29', 'count': 6}, {'_id': '6.0.0.41', 'count': 12}, {'_id': '5.2.0.12', 'count': 6}, {'_id': '6.50.14713.0', 'count': 31}, {'_id': '5.0.0.31', 'count': 12}]
+
+The API is giving issues while pulling more than 6 messages and throws 500 error using the token given in the documentation
+
+
+code structure:
+DataProcessor.py : pulls data from kafka topic and processes it to push into MongoDB
+It also does the sample aggregate function
+
+DataGenerator.py : Fetches the data from the API links in documentation
+uses threadpool executor and can be scaled to higher throughput by increasing the number of threads
+It uses concrete classes QualsysFetcher and CrowdStrikeFetcher
+
+DataNormalizer.py : Class to normalize events
+
+SourceDataFetcher.py : base class for concrete fetching classes and can be extensible for other sources
+
+Event.py : defines events, specically deviceEvent for the current use case
+
+DBClient.py : wrapper for mongoDB client
+
+SERVICES use:
+
+mongoDB
+brew services start mongodb-community@7.0
+brew services stop mongodb-community@7.0
+brew services list
+
+Kafka:
+./bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1  --partitions 2  --topic my-topic
+./bin/kafka-topics.sh --list --zookeeper zookeeper:2181
+./bin/kafka-topics.sh --describe --zookeeper zookeeper:2181 my-topic
+./bin/kafka-console-producer.sh  --broker-list localhost:9092   --topic my-topic
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-topic --from-beginning
+bin/kafka-consumer-groups --bootstrap-server host:9092 --list
+bin/kafka-consumer-groups --bootstrap-server host:9092 --describe --group my-group
+
+Zookeeper:
+$ bin/zookeeper-server-start.sh config/zookeeper.properties
+PATH="$PATH:/Users/stephanemaarek/kafka_2.13-3.0.0/bin"
+$ bin/kafka-server-start.sh config/server.properties
+

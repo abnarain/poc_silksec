@@ -1,0 +1,7 @@
+{
+    "url_qualys":"https://api.recruiting.app.silk.security/api/qualys/hosts/get", 
+    "url_crowdstrike":"https://api.recruiting.app.silk.security/api/crowdstrike/hosts/get",
+    "hdrs":{"accept":"application/json",
+    "token":"abhinavnarain10@gmail.com_ff58273a-e2c7-42c5-891d-39dc023fac05"
+    }
+}
